@@ -931,7 +931,7 @@ export class Battle {
       } else {
         def.guard -= spec.damage;
       }
-      const chip = spec.damage * chipMult * (att ? att.dmgMult : 1) * def.typeMult(type) * def.def.stats.armor;
+      const chip = spec.damage * chipMult * (att ? att.dmgMult : 1) * def.typeMult(type) * this.armorFor(def, type);
       def.hp = Math.max(1, def.hp - chip);
       def.state = 'blockstun';
       def.stateTimer = spec.blockstun || Math.round((spec.hitstun || 20) * 0.5);
@@ -952,7 +952,7 @@ export class Battle {
 
     // --- Damage ---
     const tm = def.typeMult(type);
-    let dmg = spec.damage * (att ? att.dmgMult : 1) * tm * def.def.stats.armor;
+    let dmg = spec.damage * (att ? att.dmgMult : 1) * tm * this.armorFor(def, type);
     let label = null;
     if (tm >= GLOBAL.superEffectiveAt) label = 'SUPER EFFECTIVE!';
     else if (tm <= GLOBAL.resistedAt) label = 'RESISTED!';
@@ -1051,6 +1051,12 @@ export class Battle {
     if (via === 'grab' || spec.rootFrames) def.rootedTimer = Math.max(def.rootedTimer, spec.rootFrames || 0);
     this.applyKnockback(def, srcX, srcZ, (spec.knockback || 0) * def.def.stats.weight);
     return 'hit';
+  }
+
+  /** Armor multiplier vs a damage type (some types slip past armor, see armorBypassTypes). */
+  armorFor(def, type) {
+    const bypass = def.def.armorBypassTypes;
+    return bypass && bypass.includes(type) ? 1 : def.def.stats.armor;
   }
 
   setStun(f, kind, frames) {

@@ -232,9 +232,17 @@ export class GameView {
     const fb = this.battle.fighters[1].pos;
     this.fightCam.update(dt, fa, fb);
     this.arena.update(dt, this.battle, this.fightCam.target);
-    // Windup glow for readable attacks (roots, slams)
+    // Windup glow for readable attacks (roots, slams) + glowing trails on big attacks
     for (const v of this.views) {
       const f = v.f;
+      if (f.state === 'attack' && f.phase === 'active' && f.move && (f.move.heavyHit || f.charged) && f.move.kind !== 'stream' && f.move.kind !== 'siege') {
+        const an = v.model.anchors || {};
+        const pick = an.fistR ? 'fistR' : an.hand ? 'hand' : an.wingTipL ? 'wingTipL' : an.front ? 'front' : 'mouth';
+        const p = v.anchor(pick);
+        const t = f.charged ? 'energy' : f.move.type;
+        const col = { fire: [1, 0.45, 0.1], electric: [0.75, 0.55, 1], water: [0.4, 0.9, 1], root: [0.55, 1, 0.3], energy: [0.6, 1, 1], shockwave: [1, 0.85, 0.45], physical: [1, 0.9, 0.7] }[t];
+        this.fx.burst(p, { count: 3, rgb: col, speed: 0.6, size: 1.6, sizeEnd: 0.1, life: 0.35, drag: 2 });
+      }
       if (f.state === 'attack' && f.phase === 'startup' && f.move && (f.move.kind === 'grab' || f.move.kind === 'slam' || f.move.kind === 'quake' || f.move.kind === 'charge' || f.move.heavyHit) && Math.random() < 0.5) {
         const p = v.root.position;
         const col = f.move.type === 'root' ? [0.5, 1, 0.3] : f.move.type === 'fire' ? [1, 0.5, 0.1] : f.move.type === 'water' ? [0.4, 0.9, 1] : f.move.type === 'electric' ? [0.7, 0.5, 1] : [1, 0.9, 0.6];

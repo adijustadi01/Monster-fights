@@ -10,6 +10,8 @@ import { runAll } from './sim.js';
 const ITER = parseInt(process.argv[2] || '10', 10);
 const N = parseInt(process.argv[3] || '60', 10);
 const EDGE = { korvak: 'fire', velumora: 'electric', oruvex: 'water', canopyx: 'root', prismor: 'energy' };
+// Second lever: how much the FAVORED monster is hurt by its victim's main damage type
+const REVERSE = { korvak: 'root', velumora: 'water', oruvex: 'physical', canopyx: 'physical', prismor: 'electric' };
 const counterOf = {};
 for (const [a, f] of Object.entries(FAVORABLE)) counterOf[f.vs] = a;
 
@@ -67,7 +69,16 @@ for (let it = 0; it < ITER; it++) {
     const b = FAVORABLE[a].vs;
     const r = results[a][b] - 0.6;
     const tm = MONSTERS[b].typeMultipliers;
-    tm[EDGE[a]] = Math.max(1.3, Math.min(2.0, +(tm[EDGE[a]] * (1 - r * 0.4)).toFixed(2)));
+    const next = +(tm[EDGE[a]] * (1 - r * 0.4)).toFixed(2);
+    tm[EDGE[a]] = Math.max(1.2, Math.min(2.0, next));
+    // Edge already at the floor but still too strong (or reverse lever active): tune the reverse multiplier
+    const am = MONSTERS[a].typeMultipliers;
+    const rt = REVERSE[a];
+    const cur = am[rt] ?? 1;
+    if (next < 1.2 || cur !== 1) {
+      am[rt] = Math.max(0.5, Math.min(1.19, +(cur * (1 + r * 0.5)).toFixed(2)));
+      if (am[rt] === 1) delete am[rt];
+    }
   }
   void totals;
 }

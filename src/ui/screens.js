@@ -753,7 +753,7 @@ export class Screens {
       return `<tr><td class="mname" style="color:${m.color}">${m.name}</td>${cells}<td>${MONSTERS[FAVORABLE[id].vs].name}</td></tr>`;
     }).join('');
     return `<table class="chart"><tr><th>DAMAGE TAKEN</th>${head}<th>STRONG VS</th></tr>${rows}</table>
-      <p class="tip">Red = weakness (SUPER EFFECTIVE!), blue = resistance (RESISTED!). Extra: Korvak's vents & Canopyx's core are weak spots after big attacks; Velumora's wings take extra damage while flying; water drains Korvak's armor; fire stops Canopyx healing; Prismor reflects energy & lightning.</p>`;
+      <p class="tip">Red = weakness (SUPER EFFECTIVE!), blue = resistance (RESISTED!). Extra: Korvak's vents & Canopyx's core are weak spots after big attacks; roots slip between Korvak's armor plates; Velumora's wings take extra damage while flying; water drains Korvak's armor; fire stops Canopyx healing; Prismor reflects energy & lightning.</p>`;
   }
 
   /* ------------------------------------------------------------------ */

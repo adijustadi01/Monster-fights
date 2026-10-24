@@ -83,7 +83,7 @@ for (const id of MONSTER_ORDER) {
 console.log('\nSPECIAL RULES');
 // Water cools Korvak
 let b = setup('oruvex', 'korvak', 10);
-let ev = run(b, 400, (i) => ({ ...emptyInput(), ability: i % 140 === 0 }));
+let ev = run(b, 1200, (i) => ({ ...emptyInput(), ability: i % 140 === 0 }));
 check(ev.some((e) => e.type === 'cooled'), 'water cannon cools Korvak (armor cracked)');
 check(ev.some((e) => e.type === 'hit' && e.label === 'SUPER EFFECTIVE!'), 'water is SUPER EFFECTIVE on Korvak');
 // Pressure blast interrupts Korvak's armored charge

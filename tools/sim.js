@@ -7,9 +7,9 @@ import { ARENA_ORDER } from '../src/data/arenas.js';
 const MAX_FRAMES = 60 * 60 * 8;
 
 /** One best-of-3 AI-vs-AI match. Returns the winner index (0/1). */
-export function runMatch(a, b, seed, diff = 'normal') {
+export function runMatch(a, b, seed, diff = 'normal', diff2 = diff) {
   const battle = new Battle({ p1: a, p2: b, arena: ARENA_ORDER[seed % ARENA_ORDER.length], hazards: false, seed });
-  const ai = [new AIController(battle, 0, diff, seed * 2 + 1), new AIController(battle, 1, diff, seed * 2 + 2)];
+  const ai = [new AIController(battle, 0, diff, seed * 2 + 1), new AIController(battle, 1, diff2, seed * 2 + 2)];
   let frames = 0;
   while (battle.phase !== 'matchOver' && frames < MAX_FRAMES) {
     battle.step(ai[0].getInput(), ai[1].getInput());
