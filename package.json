@@ -1,0 +1,20 @@
+{
+  "name": "monster-fights",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Monster Fights - 3D giant monster arena fighting game (Three.js)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "balance": "node tools/balance.js",
+    "test": "node tools/smoke-test.js"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
