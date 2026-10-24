@@ -86,7 +86,22 @@ Then run `npm run balance` to see the new win rates. `node tools/tune.js 10 60 -
 
 ## Balance results
 
-BALANCE_TABLE
+Measured with `npm run balance`: **200 AI-vs-AI best-of-3 matches for every matchup** (2,000 matches), both AIs on Normal, sides alternated, logic-only simulation, arena hazards off. ★ = favorable matchup from the character guide.
+
+| Win rate (row vs column) | KORVAK | VELUMORA | ORUVEX | CANOPYX | PRISMOR | Overall |
+|---|---|---|---|---|---|---|
+| **KORVAK** | - | 56% | 41% | 58% ★ | 48% | 50% |
+| **VELUMORA** | 44% | - | 62% ★ | 42% | 39% | 47% |
+| **ORUVEX** | 60% ★ | 38% | - | 47% | 56% | 50% |
+| **CANOPYX** | 42% | 58% | 53% | - | 61% ★ | 53% |
+| **PRISMOR** | 53% | 62% ★ | 44% | 40% | - | 49% |
+
+Targets: favorable matchups 55-65% ✅, all other matchups 40-60% ✅, no monster above 60% overall ✅.
+A second run with completely different random seeds also met every target. (The two "countered" sides, e.g. Velumora vs Prismor at 39%, are simply the other side of a favorable matchup.)
+
+How it was tuned: `tools/tune.js` adjusted each monster's overall damage and the counter multipliers by simulation, then the last few numbers were set by hand. Design changes made during balancing: heavy-move cooldowns (Root Grab, Armored Charge, Dive Strike), roots slip between Korvak's armor plates, Root Grab/Forest Lock can entangle an armored charge, Canopyx raises barriers against charges and projectiles, a slower Magma Armor drain, and Prismor's damage moved from the Haymaker into its combos.
+
+AI difficulty check (`node tools/difficulty-test.js`, mirror matches): Hard beats Normal ~90%, Titan beats Normal ~100% and beats Hard ~85%, Easy loses to Normal.
 
 ## Replacing a monster with a .glb 3D model
 

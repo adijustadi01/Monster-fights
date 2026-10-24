@@ -9,7 +9,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "balance": "node tools/balance.js",
-    "test": "node tools/smoke-test.js"
+    "test": "node tools/move-test.js",
+    "test:difficulty": "node tools/difficulty-test.js",
+    "tune": "node tools/tune.js",
+    "smoke": "node tools/smoke-test.js"
   },
   "dependencies": {
     "three": "^0.170.0"

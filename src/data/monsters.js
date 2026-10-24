@@ -144,7 +144,7 @@ export const MONSTERS = {
     },
 
     // Damage taken multiplier by type (missing = 1.0)
-    typeMultipliers: { water: 1.2, fire: 0.5, physical: 0.9, shockwave: 0.8, root: 1.18 },
+    typeMultipliers: { water: 1.2, fire: 0.5, physical: 0.9, shockwave: 0.8, root: 1.19, electric: 0.98, energy: 0.93 },
     armorBypassTypes: ['root'], // roots squeeze between the basalt plates: armor doesn't reduce root damage
 
     resource: {
@@ -164,22 +164,22 @@ export const MONSTERS = {
 
     moves: {
       light: [
-        { name: 'Claw Swipe', kind: 'melee', type: 'physical', damage: 38, startup: 11, active: 4, recovery: 16, range: 4.7, arc: 110, yReach: 6, hitstun: 27, blockstun: 14, knockback: 2.5, lunge: 3 },
-        { name: 'Claw Swipe II', kind: 'melee', type: 'physical', damage: 42, startup: 10, active: 4, recovery: 18, range: 4.9, arc: 110, yReach: 6, hitstun: 29, blockstun: 14, knockback: 3, lunge: 3 },
-        { name: 'Magma Claw', kind: 'melee', type: 'fire', damage: 53, startup: 13, active: 5, recovery: 24, range: 5.1, arc: 120, yReach: 6, hitstun: 34, blockstun: 16, knockback: 7, lunge: 4, heavyHit: true },
+        { name: 'Claw Swipe', kind: 'melee', type: 'physical', damage: 39, startup: 11, active: 4, recovery: 16, range: 4.7, arc: 110, yReach: 6, hitstun: 27, blockstun: 14, knockback: 2.5, lunge: 3 },
+        { name: 'Claw Swipe II', kind: 'melee', type: 'physical', damage: 43, startup: 10, active: 4, recovery: 18, range: 4.9, arc: 110, yReach: 6, hitstun: 29, blockstun: 14, knockback: 3, lunge: 3 },
+        { name: 'Magma Claw', kind: 'melee', type: 'fire', damage: 54, startup: 13, active: 5, recovery: 24, range: 5.1, arc: 120, yReach: 6, hitstun: 34, blockstun: 16, knockback: 7, lunge: 4, heavyHit: true },
       ],
       heavy: {
-        name: 'Armored Charge', kind: 'charge', type: 'physical', damage: 93, startup: 24, active: 30, recovery: 30,
+        name: 'Armored Charge', kind: 'charge', type: 'physical', damage: 95, startup: 24, active: 30, recovery: 30,
         chargeSpeed: 15, range: 3.4, arc: 100, yReach: 5.5, hitstun: 40, blockstun: 22, knockback: 13, launch: 7,
         knockdown: true, superArmor: true, heavyHit: true, exposesWeakSpot: 150, cooldown: 150,
       },
       ability: {
-        name: 'Ground Slam', kind: 'slam', type: 'shockwave', damage: 72, startup: 26, active: 4, recovery: 28,
+        name: 'Ground Slam', kind: 'slam', type: 'shockwave', damage: 73, startup: 26, active: 4, recovery: 28,
         radius: 7.2, groundOnly: true, hitstun: 36, blockstun: 18, knockback: 7, launch: 6, knockdown: true,
         cooldown: 330, heavyHit: true,
       },
       signature: {
-        name: 'Magma Quake', kind: 'quake', type: 'fire', damage: 55, startup: 40, active: 6, recovery: 46,
+        name: 'Magma Quake', kind: 'quake', type: 'fire', damage: 56, startup: 40, active: 6, recovery: 46,
         rings: 3, ringInterval: 22, ringSpeed: 16, ringMaxRadius: 24, ringWidth: 1.7, groundOnly: true,
         hitstun: 32, blockstun: 16, knockback: 6, launch: 4, superArmor: true, heavyHit: true,
         meterCost: 100, exposesWeakSpot: 180,
@@ -222,7 +222,7 @@ export const MONSTERS = {
       dodge: { frames: 18, speed: 16, invulnStart: 2, invulnEnd: 13, cooldown: 38 },
     },
 
-    typeMultipliers: { electric: 0.5, energy: 1.23 },
+    typeMultipliers: { electric: 0.5, energy: 1.2, fire: 1.02 },
     wingHitMult: 1.05, // extra damage taken while flying (wing membranes), non-electric hits
 
     resource: {
@@ -237,21 +237,21 @@ export const MONSTERS = {
 
     moves: {
       light: [
-        { name: 'Wing Slash', kind: 'melee', type: 'electric', damage: 33, startup: 7, active: 4, recovery: 13, range: 4.9, arc: 130, yReach: 7, hitstun: 23, blockstun: 11, knockback: 2, lunge: 6 },
-        { name: 'Wing Slash II', kind: 'melee', type: 'physical', damage: 35, startup: 7, active: 4, recovery: 14, range: 4.9, arc: 130, yReach: 7, hitstun: 28, blockstun: 11, knockback: 2.5, lunge: 6 },
-        { name: 'Ribbon Lash', kind: 'melee', type: 'electric', damage: 47, startup: 10, active: 5, recovery: 20, range: 5.4, arc: 150, yReach: 7, hitstun: 30, blockstun: 14, knockback: 6, lunge: 5, heavyHit: true },
+        { name: 'Wing Slash', kind: 'melee', type: 'electric', damage: 34, startup: 7, active: 4, recovery: 13, range: 4.9, arc: 130, yReach: 7, hitstun: 23, blockstun: 11, knockback: 2, lunge: 6 },
+        { name: 'Wing Slash II', kind: 'melee', type: 'physical', damage: 36, startup: 7, active: 4, recovery: 14, range: 4.9, arc: 130, yReach: 7, hitstun: 28, blockstun: 11, knockback: 2.5, lunge: 6 },
+        { name: 'Ribbon Lash', kind: 'melee', type: 'electric', damage: 48, startup: 10, active: 5, recovery: 20, range: 5.4, arc: 150, yReach: 7, hitstun: 30, blockstun: 14, knockback: 6, lunge: 5, heavyHit: true },
       ],
       heavy: {
-        name: 'Dive Strike', kind: 'dive', type: 'electric', damage: 90, startup: 20, active: 40, recovery: 32, whiffRecovery: 48,
+        name: 'Dive Strike', kind: 'dive', type: 'electric', damage: 91, startup: 20, active: 40, recovery: 32, whiffRecovery: 48,
         diveSpeed: 27, range: 3.2, yReach: 6, hitstun: 38, blockstun: 20, knockback: 10, launch: 5, knockdown: true, heavyHit: true, cooldown: 120,
         description: 'From the air: dive onto the enemy. From the ground: leap up, then dive.',
       },
       ability: {
-        name: 'Lightning Bolt', kind: 'projectile', type: 'electric', damage: 54, startup: 14, active: 1, recovery: 18,
+        name: 'Lightning Bolt', kind: 'projectile', type: 'electric', damage: 55, startup: 14, active: 1, recovery: 18,
         speed: 36, projRadius: 0.9, life: 60, hitstun: 24, blockstun: 12, knockback: 3, cooldown: 78, reflectable: true,
       },
       signature: {
-        name: 'Thunder Vortex', kind: 'vortex', type: 'electric', damage: 161, startup: 24, active: 4, recovery: 30,
+        name: 'Thunder Vortex', kind: 'vortex', type: 'electric', damage: 164, startup: 24, active: 4, recovery: 30,
         duration: 150, vortexSpeed: 7, pullRadius: 10.5, pullStrength: 9.5, tickDamage: 5, tickEvery: 10,
         strikeRadius: 5, hitstun: 44, blockstun: 22, knockback: 9, launch: 8, knockdown: true, heavyHit: true, meterCost: 100,
         description: 'A moving cyclone that drags the enemy in, then a lightning strike. Dodge out of the pull!',
@@ -291,7 +291,7 @@ export const MONSTERS = {
       dodge: { frames: 22, speed: 11, invulnStart: 2, invulnEnd: 14, cooldown: 46 },
     },
 
-    typeMultipliers: { electric: 1.3, water: 0.5, fire: 0.8, physical: 1.19 },
+    typeMultipliers: { electric: 1.28, water: 0.5, fire: 0.8, physical: 1.19, root: 0.88, energy: 1.08 },
 
     resource: {
       kind: 'water',
@@ -306,12 +306,12 @@ export const MONSTERS = {
 
     moves: {
       light: [
-        { name: 'Siphon Whip', kind: 'melee', type: 'physical', damage: 31, startup: 10, active: 5, recovery: 16, range: 6.3, arc: 70, yReach: 8, hitstun: 25, blockstun: 12, knockback: 2.5, lunge: 2 },
-        { name: 'Siphon Whip II', kind: 'melee', type: 'physical', damage: 33, startup: 10, active: 5, recovery: 17, range: 6.3, arc: 70, yReach: 8, hitstun: 27, blockstun: 12, knockback: 3, lunge: 2 },
-        { name: 'Tide Lash', kind: 'melee', type: 'water', damage: 42, startup: 12, active: 5, recovery: 22, range: 6.6, arc: 80, yReach: 8, hitstun: 32, blockstun: 15, knockback: 6, lunge: 2, heavyHit: true },
+        { name: 'Siphon Whip', kind: 'melee', type: 'physical', damage: 30, startup: 10, active: 5, recovery: 16, range: 6.3, arc: 70, yReach: 8, hitstun: 25, blockstun: 12, knockback: 2.5, lunge: 2 },
+        { name: 'Siphon Whip II', kind: 'melee', type: 'physical', damage: 32, startup: 10, active: 5, recovery: 17, range: 6.3, arc: 70, yReach: 8, hitstun: 27, blockstun: 12, knockback: 3, lunge: 2 },
+        { name: 'Tide Lash', kind: 'melee', type: 'water', damage: 41, startup: 12, active: 5, recovery: 22, range: 6.6, arc: 80, yReach: 8, hitstun: 32, blockstun: 15, knockback: 6, lunge: 2, heavyHit: true },
       ],
       heavy: {
-        name: 'Pressure Blast', kind: 'melee', type: 'water', damage: 80, startup: 20, active: 6, recovery: 28,
+        name: 'Pressure Blast', kind: 'melee', type: 'water', damage: 78, startup: 20, active: 6, recovery: 28,
         range: 8.8, arc: 60, yReach: 9, hitstun: 38, blockstun: 22, knockback: 16, launch: 4, knockdown: true,
         breaksArmor: true, forceLand: true, heavyHit: true, resourceCost: 20,
         description: 'Huge knockback. Interrupts armored charges and knocks flyers out of the sky.',
@@ -363,16 +363,16 @@ export const MONSTERS = {
       dodge: { frames: 22, speed: 11, invulnStart: 2, invulnEnd: 14, cooldown: 46 },
     },
 
-    typeMultipliers: { fire: 1.2, water: 0.6, root: 0.5, physical: 0.86 },
+    typeMultipliers: { fire: 1.2, water: 0.76, root: 0.5, physical: 0.8, shockwave: 0.75 },
 
     resource: {
       kind: 'regen',
       label: 'REGENERATION',
       color: '#7ed957',
       max: 100,
-      delayFrames: 190, // frames without taking damage before healing starts
-      healPerSecond: 13,
-      firePause: 200, // fire stops regeneration this long
+      delayFrames: 180, // frames without taking damage before healing starts
+      healPerSecond: 14,
+      firePause: 140, // fire stops regeneration this long
     },
 
     weakSpot: { name: 'core', label: 'CORE HIT!', mult: 1.3 },
@@ -384,7 +384,7 @@ export const MONSTERS = {
         { name: 'Trunk Club', kind: 'melee', type: 'physical', damage: 30, startup: 13, active: 5, recovery: 22, range: 5.2, arc: 110, yReach: 7, hitstun: 32, blockstun: 15, knockback: 7, lunge: 3, heavyHit: true },
       ],
       heavy: {
-        name: 'Root Grab', kind: 'grab', type: 'root', damage: 33, startup: 30, active: 22, recovery: 28, whiffRecovery: 40,
+        name: 'Root Grab', kind: 'grab', type: 'root', damage: 34, startup: 30, active: 22, recovery: 28, whiffRecovery: 40,
         travelSpeed: 34, range: 13.5, tipRadius: 1.8, rootFrames: 65, hitstun: 30, unblockable: true, groundOnly: true, cooldown: 180, breaksArmor: true,
         exposesWeakSpot: true, heavyHit: true,
         description: 'Slow, glowing wind-up, then roots race along the ground and immobilize. Cannot be blocked - jump or dodge it!',
@@ -395,7 +395,7 @@ export const MONSTERS = {
         description: 'Grows a wall that stops attacks and projectiles. Fire burns it down fast.',
       },
       signature: {
-        name: 'Forest Lock', kind: 'forestlock', type: 'root', damage: 65, startup: 20, active: 6, recovery: 30,
+        name: 'Forest Lock', kind: 'forestlock', type: 'root', damage: 66, startup: 20, active: 6, recovery: 30,
         warning: 38, radius: 6.8, rootFrames: 140, hitstun: 30, groundOnly: true, unblockable: true,
         exposesWeakSpot: true, heavyHit: true, breaksArmor: true, meterCost: 100,
         description: 'Roots erupt under the enemy after a warning, trapping grounded foes.',
@@ -435,7 +435,7 @@ export const MONSTERS = {
       dodge: { frames: 17, speed: 16, invulnStart: 1, invulnEnd: 13, cooldown: 30 },
     },
 
-    typeMultipliers: { root: 1.67, energy: 0.55, electric: 1.15, shockwave: 1.1 },
+    typeMultipliers: { root: 1.55, energy: 0.55, electric: 1.19, shockwave: 1.1, fire: 1.08, water: 0.88 },
 
     resource: {
       kind: 'shield',
@@ -455,12 +455,12 @@ export const MONSTERS = {
 
     moves: {
       light: [
-        { name: 'Crystal Jab', kind: 'melee', type: 'physical', damage: 47, startup: 5, active: 3, recovery: 10, range: 4.5, arc: 100, yReach: 7, hitstun: 20, blockstun: 10, knockback: 1.5, lunge: 5 },
-        { name: 'Crystal Cross', kind: 'melee', type: 'physical', damage: 51, startup: 5, active: 3, recovery: 11, range: 4.5, arc: 100, yReach: 7, hitstun: 22, blockstun: 10, knockback: 2, lunge: 5 },
-        { name: 'Prism Uppercut', kind: 'melee', type: 'energy', damage: 75, startup: 8, active: 4, recovery: 18, range: 4.7, arc: 110, yReach: 8, hitstun: 30, blockstun: 13, knockback: 5, launch: 3, lunge: 5, heavyHit: true },
+        { name: 'Crystal Jab', kind: 'melee', type: 'physical', damage: 46, startup: 5, active: 3, recovery: 10, range: 4.5, arc: 100, yReach: 7, hitstun: 20, blockstun: 10, knockback: 1.5, lunge: 5 },
+        { name: 'Crystal Cross', kind: 'melee', type: 'physical', damage: 50, startup: 5, active: 3, recovery: 11, range: 4.5, arc: 100, yReach: 7, hitstun: 22, blockstun: 10, knockback: 2, lunge: 5 },
+        { name: 'Prism Uppercut', kind: 'melee', type: 'energy', damage: 74, startup: 8, active: 4, recovery: 18, range: 4.7, arc: 110, yReach: 8, hitstun: 30, blockstun: 13, knockback: 5, launch: 3, lunge: 5, heavyHit: true },
       ],
       heavy: {
-        name: 'Crystal Haymaker', kind: 'melee', type: 'physical', damage: 146, startup: 20, active: 5, recovery: 22, whiffRecovery: 54,
+        name: 'Crystal Haymaker', kind: 'melee', type: 'physical', damage: 143, startup: 20, active: 5, recovery: 22, whiffRecovery: 54,
         range: 5.3, arc: 90, yReach: 7, hitstun: 42, blockstun: 22, knockback: 13, launch: 5, knockdown: true, lunge: 9, heavyHit: true,
         description: 'Massive punch. If it misses, Prismor is left wide open.',
       },
@@ -470,7 +470,7 @@ export const MONSTERS = {
         description: 'Leaves a crystal illusion that draws attacks and enemy targeting while Prismor slips aside.',
       },
       signature: {
-        name: 'Prism Reversal', kind: 'parry', type: 'energy', damage: 128, startup: 4, active: 75, recovery: 20,
+        name: 'Prism Reversal', kind: 'parry', type: 'energy', damage: 126, startup: 4, active: 75, recovery: 20,
         chargedPunchMult: 1.9, counterHitstun: 40, knockback: 12, launch: 6, knockdown: true, heavyHit: true, meterCost: 100,
         description: 'Raise the prism shield: reflects energy & lightning, counter-punches melee. Success powers up the next punch.',
       },

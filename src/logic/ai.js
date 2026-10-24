@@ -221,6 +221,11 @@ export class AIController {
       if (kind === 'forestlock') this.dodgeWant = { x: side.x * 0.6 + away.x * 0.4, z: side.z * 0.6 + away.z * 0.4 };
       return true;
     }
+    // Canopyx: grow a barrier against charges, projectiles and water streams
+    if (me.def.moves.ability.kind === 'barrier' && me.cooldowns.ability <= 0 && (kind === 'charge' || kind === 'projectile' || kind === 'stream' || kind === 'siege') && dist > 6 && this.chance(this.d.counterUse)) {
+      this.press('ability');
+      return true;
+    }
     if (kind === 'vortex') {
       this.dodgeWant = away;
       return true;

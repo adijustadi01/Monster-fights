@@ -80,6 +80,24 @@ for (let it = 0; it < ITER; it++) {
       if (am[rt] === 1) delete am[rt];
     }
   }
+  // Neutral pairs: nudge each side's vulnerability to the other's signature damage type
+  for (let i = 0; i < MONSTER_ORDER.length; i++) {
+    for (let j = i + 1; j < MONSTER_ORDER.length; j++) {
+      const A = MONSTER_ORDER[i];
+      const B = MONSTER_ORDER[j];
+      if (FAVORABLE[A].vs === B || FAVORABLE[B].vs === A) continue;
+      const e = results[A][B] - 0.5;
+      if (Math.abs(e) < 0.05) continue;
+      const nudge = (def, type, f) => {
+        const tm = MONSTERS[def].typeMultipliers;
+        const v = Math.max(0.72, Math.min(1.18, +((tm[type] ?? 1) * f).toFixed(2)));
+        if (v === 1) delete tm[type];
+        else tm[type] = v;
+      };
+      nudge(B, EDGE[A], 1 - e * 0.35); // A winning -> B resists A's type more
+      nudge(A, EDGE[B], 1 + e * 0.35); // ...and A takes more from B's type
+    }
+  }
   void totals;
 }
 console.log('\nBest iteration score', best.score.toFixed(2));
