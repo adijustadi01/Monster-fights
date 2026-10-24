@@ -11,6 +11,9 @@ const tmpA = new THREE.Vector3();
 const tmpB = new THREE.Vector3();
 const tmpC = new THREE.Vector3();
 const tmpQ = new THREE.Quaternion();
+// private temporaries for solveKnee (must not be shared with callers)
+const ikDir = new THREE.Vector3();
+const ikPole = new THREE.Vector3();
 
 /** Standard material helper. */
 export function mat(color, opts = {}) {
@@ -107,7 +110,7 @@ export class Limb {
 
 /** 2-bone IK: returns the knee position for hip->foot with bone lengths l1,l2. */
 export function solveKnee(hip, foot, l1, l2, pole, out = new THREE.Vector3()) {
-  const dir = tmpB.subVectors(foot, hip);
+  const dir = ikDir.subVectors(foot, hip);
   let d = dir.length();
   const maxD = (l1 + l2) * 0.999;
   if (d > maxD) {
@@ -119,7 +122,7 @@ export function solveKnee(hip, foot, l1, l2, pole, out = new THREE.Vector3()) {
   dir.normalize();
   const a = (l1 * l1 - l2 * l2 + d * d) / (2 * d);
   const h = Math.sqrt(Math.max(0, l1 * l1 - a * a));
-  const p = tmpC.copy(pole).addScaledVector(dir, -pole.dot(dir));
+  const p = ikPole.copy(pole).addScaledVector(dir, -pole.dot(dir));
   if (p.lengthSq() < 1e-6) p.set(0, 1, 0);
   p.normalize();
   out.copy(hip).addScaledVector(dir, a).addScaledVector(p, h);
@@ -234,14 +237,16 @@ export class LegSystem {
     const root = this.root;
     this.body.updateMatrixWorld(true);
     root.updateMatrixWorld(true);
-    const inv = tmpQ; // unused placeholder to keep allocations zero
-    void inv;
     for (const l of this.legs) {
       // hip in root space
       l.hipW.copy(l.hip).applyMatrix4(this.body.matrixWorld);
-      const hipLocal = root.worldToLocal(tmpA.copy(l.hipW));
+      if (!l.hipLocal) {
+        l.hipLocal = new THREE.Vector3();
+        l.footLocal = new THREE.Vector3();
+      }
+      const hipLocal = root.worldToLocal(l.hipLocal.copy(l.hipW));
       const target = overrides && overrides.get(l) ? overrides.get(l) : l.footWorld;
-      const footLocal = root.worldToLocal(tmpB.copy(target));
+      const footLocal = root.worldToLocal(l.footLocal.copy(target));
       const kneeLocal = solveKnee(hipLocal, footLocal, l.l1, l.l2, l.pole, l.knee);
       l.upper.set(hipLocal, kneeLocal);
       l.lower.set(kneeLocal, footLocal);

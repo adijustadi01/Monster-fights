@@ -95,6 +95,13 @@ export class FightCamera {
       lerpK = 1 - Math.exp(-3.2 * dt);
     }
 
+    // Debug / screenshot hook: window.__camOverride = { pos: [x,y,z], target: [x,y,z] }
+    if (typeof window !== 'undefined' && window.__camOverride) {
+      wantPos = new THREE.Vector3(...window.__camOverride.pos);
+      wantTarget = new THREE.Vector3(...window.__camOverride.target);
+      lerpK = 1;
+      this.target.copy(wantTarget);
+    }
     this.pos.lerp(wantPos, lerpK);
     this.target.lerp(wantTarget, 1 - Math.exp(-6 * dt));
 

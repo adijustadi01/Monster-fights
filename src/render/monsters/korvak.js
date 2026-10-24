@@ -27,14 +27,14 @@ export function buildKorvak(palette, opts = {}) {
   // --- Lava core (shows through gaps between plates) ---
   const coreGeo = new THREE.SphereGeometry(1, 20, 14);
   const core = mesh(coreGeo, lavaMat);
-  core.scale.set(1.95, 1.15, 2.7);
-  core.position.set(0, 2.55, 0);
+  core.scale.set(2.02, 1.22, 2.78);
+  core.position.set(0, 3.05, 0);
   body.add(core);
 
   // --- Shell plates on the upper ellipsoid ---
   const plates = new THREE.Group();
   body.add(plates);
-  const N = 46;
+  const N = 34;
   const golden = Math.PI * (3 - Math.sqrt(5));
   for (let i = 0; i < N; i++) {
     const y = 1 - (i / (N - 1)) * 1.25; // upper ~60% of sphere
@@ -43,26 +43,26 @@ export function buildKorvak(palette, opts = {}) {
     const th = golden * i;
     const nx = Math.cos(th) * r;
     const nz = Math.sin(th) * r;
-    const g = rockGeo(0.56 + (i % 3) * 0.07, 0, 0.25, i + 3, [1.15, 0.45, 1.15]);
+    const g = rockGeo(0.62 + (i % 3) * 0.07, 0, 0.2, i + 3, [1.2, 0.38, 1.2]);
     const p = mesh(g, i % 4 === 0 ? rock2Mat : rockMat);
-    p.position.set(nx * 2.05, 2.55 + y * 1.25, nz * 2.8);
-    p.lookAt(p.position.x * 2, (p.position.y - 2.55) * 2 + 2.55, p.position.z * 2);
+    p.position.set(nx * 2.08, 3.05 + y * 1.3, nz * 2.82);
+    p.lookAt(p.position.x * 2, (p.position.y - 3.05) * 2 + 3.05, p.position.z * 2);
     p.rotateX(Math.PI / 2);
     plates.add(p);
   }
   // Belly plate
   const belly = mesh(rockGeo(1, 1, 0.12, 77, [1.8, 0.5, 2.5]), rock2Mat);
-  belly.position.set(0, 1.75, 0);
+  belly.position.set(0, 2.2, 0);
   body.add(belly);
 
   // --- Shoulder vents (weak spot after big attacks) ---
   const vents = [];
   for (const s of [-1, 1]) {
-    const ring = mesh(new THREE.TorusGeometry(0.62, 0.3, 8, 14), rockMat);
-    ring.position.set(s * 1.35, 3.55, 1.0);
+    const ring = mesh(new THREE.TorusGeometry(0.72, 0.32, 8, 14), rockMat);
+    ring.position.set(s * 1.4, 4.05, 1.05);
     ring.rotation.set(-1.0, 0, s * 0.5);
     body.add(ring);
-    const hole = mesh(new THREE.CircleGeometry(0.55, 14), ventMat);
+    const hole = mesh(new THREE.CircleGeometry(0.62, 14), ventMat);
     hole.position.copy(ring.position);
     hole.rotation.copy(ring.rotation);
     hole.translateZ(0.05);
@@ -75,7 +75,7 @@ export function buildKorvak(palette, opts = {}) {
 
   // --- Head ---
   const neck = new THREE.Group();
-  neck.position.set(0, 2.35, 2.55);
+  neck.position.set(0, 2.85, 2.55);
   body.add(neck);
   const head = new THREE.Group();
   neck.add(head);
@@ -106,49 +106,57 @@ export function buildKorvak(palette, opts = {}) {
   // back ridge spikes
   for (let i = 0; i < 5; i++) {
     const sp = mesh(rockGeo(0.35, 0, 0.3, 40 + i, [0.7, 1.6, 0.7]), rock2Mat);
-    sp.position.set(0, 3.85 - Math.abs(i - 1.5) * 0.12, 1.2 - i * 0.85);
+    sp.position.set(0, 4.35 - Math.abs(i - 1.5) * 0.12, 1.2 - i * 0.85);
     sp.rotation.x = -0.4;
     body.add(sp);
   }
   // tail stub
   const tail = mesh(rockGeo(0.7, 0, 0.2, 99, [0.8, 0.6, 1.5]), rockMat);
-  tail.position.set(0, 1.9, -2.9);
+  tail.position.set(0, 2.4, -2.9);
   body.add(tail);
 
   // --- Six legs with IK ---
   const legs = new LegSystem(root, body, { stepDist: 1.5, stepTime: 0.42, lift: 0.8, lead: 0.3, onStep: opts.onStep });
   const legDefs = [
-    { x: 1.75, z: 1.55, rx: 2.9, rz: 2.5, g: 0 },
-    { x: -1.75, z: 1.55, rx: -2.9, rz: 2.5, g: 1 },
-    { x: 1.9, z: 0, rx: 3.25, rz: 0.1, g: 1 },
-    { x: -1.9, z: 0, rx: -3.25, rz: 0.1, g: 0 },
-    { x: 1.75, z: -1.55, rx: 2.9, rz: -2.2, g: 0 },
-    { x: -1.75, z: -1.55, rx: -2.9, rz: -2.2, g: 1 },
+    { x: 1.7, z: 1.5, rx: 2.45, rz: 2.0, g: 0 },
+    { x: -1.7, z: 1.5, rx: -2.45, rz: 2.0, g: 1 },
+    { x: 1.85, z: 0, rx: 2.7, rz: 0.05, g: 1 },
+    { x: -1.85, z: 0, rx: -2.7, rz: 0.05, g: 0 },
+    { x: 1.7, z: -1.5, rx: 2.45, rz: -1.9, g: 0 },
+    { x: -1.7, z: -1.5, rx: -2.45, rz: -1.9, g: 1 },
   ];
   const legList = [];
   for (const d of legDefs) {
-    const upper = new Limb(root, rockMat, 0.78, 0.62, 7);
-    const lower = new Limb(root, rock2Mat, 0.62, 0.52, 7);
+    const upper = new Limb(root, rockMat, 0.95, 0.82, 7);
+    const lower = new Limb(root, rock2Mat, 0.82, 0.7, 7);
     const foot = new THREE.Group();
-    const footMesh = mesh(rockGeo(0.62, 0, 0.2, 5 + legList.length, [1.15, 0.55, 1.25]), rockMat);
+    const footMesh = mesh(rockGeo(0.75, 0, 0.2, 5 + legList.length, [1.15, 0.5, 1.25]), rockMat);
     footMesh.position.y = 0.2;
     foot.add(footMesh);
+    const footGlow = mesh(new THREE.TorusGeometry(0.8, 0.05, 4, 12), lavaMat, false);
+    footGlow.rotation.x = Math.PI / 2;
+    footGlow.position.y = 0.45;
+    foot.add(footGlow);
     for (let t = -1; t <= 1; t++) {
       const toe = mesh(new THREE.ConeGeometry(0.18, 0.45, 5), rock2Mat);
       toe.rotation.x = Math.PI / 2;
-      toe.position.set(t * 0.33, 0.12, 0.62);
+      toe.position.set(t * 0.38, 0.14, 0.75);
       foot.add(toe);
     }
     // lava glow at the knee
-    const kneeCap = mesh(rockGeo(0.55, 0, 0.25, 60 + legList.length), rockMat);
+    const kneeCap = new THREE.Group();
+    kneeCap.add(mesh(rockGeo(0.78, 0, 0.25, 60 + legList.length), rockMat));
+    const crack = mesh(new THREE.TorusGeometry(0.72, 0.06, 4, 10), lavaMat, false);
+    crack.rotation.set(Math.PI / 2 + 0.3, 0.4, 0);
+    kneeCap.add(crack);
     root.add(kneeCap);
     root.add(foot);
     const leg = legs.addLeg({
-      hip: new THREE.Vector3(d.x, 2.2, d.z),
+      hip: new THREE.Vector3(d.x, 2.6, d.z),
       rest: new THREE.Vector3(d.rx, 0, d.rz),
-      l1: 1.95,
-      l2: 1.9,
-      pole: new THREE.Vector3(Math.sign(d.x) * 1, 1.2, 0.2),
+      l1: 1.6,
+      l2: 1.5,
+      pole: new THREE.Vector3(Math.sign(d.x) * 0.8, 0.4, d.z > 0.5 ? 1 : d.z < -0.5 ? -1 : 0.3),
       group: d.g,
       upper,
       lower,
@@ -309,10 +317,10 @@ export function buildKorvak(palette, opts = {}) {
   // Effect anchor points (in body space)
   const anchors = {
     mouth: () => head.localToWorld(new THREE.Vector3(0, 0, 2.0)),
-    ventL: () => body.localToWorld(new THREE.Vector3(1.35, 3.6, 1.0)),
-    ventR: () => body.localToWorld(new THREE.Vector3(-1.35, 3.6, 1.0)),
+    ventL: () => body.localToWorld(new THREE.Vector3(1.4, 4.1, 1.05)),
+    ventR: () => body.localToWorld(new THREE.Vector3(-1.4, 4.1, 1.05)),
     front: () => root.localToWorld(new THREE.Vector3(0, 0.2, 3.8)),
-    center: () => body.localToWorld(new THREE.Vector3(0, 2.6, 0)),
+    center: () => body.localToWorld(new THREE.Vector3(0, 3.0, 0)),
   };
 
   return { root, body, legs, materials, update, anchors, height: 4.6, headObj: head };

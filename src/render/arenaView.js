@@ -388,6 +388,25 @@ export class ArenaView {
         v.hole.position.y = lp.state === 'sink' ? 0.09 : 0.08;
       });
     }
+    // Wind gusts: streaks blowing across the arena (warning = light streaks)
+    if (battle && battle.arena.gust) {
+      const g = battle.arena.gust;
+      const warn = g.timer > this.def.hazard.gustDuration;
+      const n = warn ? 1 : 4;
+      for (let i = 0; i < n; i++) {
+        const sx = (Math.random() - 0.5) * 70 - g.dx * 30;
+        const sz = (Math.random() - 0.5) * 70 - g.dz * 30;
+        this.fx.burst({ x: sx, y: 0.5 + Math.random() * 8, z: sz }, { count: 1, rgb: [0.9, 0.95, 1], speed: 0, vel: { x: g.dx * 40, z: g.dz * 40 }, size: 0.6, sizeEnd: 0.2, life: 1.2, alpha: warn ? 0.35 : 0.8, drag: 0, additive: false });
+      }
+    }
+    // River surge: foam rushing along the river band
+    if (battle && this.def.hazard.kind === 'river') {
+      const h = this.def.hazard;
+      const surge = !!battle.arena.surge;
+      if (Math.random() < (surge ? 1 : 0.25)) {
+        for (let i = 0; i < (surge ? 4 : 1); i++) this.fx.burst({ x: -40 + Math.random() * 20, y: 0.3, z: h.bandMin + Math.random() * (h.bandMax - h.bandMin) }, { count: 1, rgb: [0.92, 0.97, 1], speed: 0, vel: { x: surge ? 22 : 8, z: 0 }, size: surge ? 2 : 1.2, sizeEnd: surge ? 3 : 1.6, life: 4, alpha: 0.6, drag: 0, additive: false });
+      }
+    }
     // Backdrop animation
     for (const a of this.anim) {
       if (a.kind === 'spin') a.obj.rotation.z += dt * a.speed;

@@ -270,9 +270,9 @@ export class Effects {
       const a = Math.random() * Math.PI * 2;
       const e = (Math.random() - 0.3) * Math.PI * (o.vertical ?? 0.5);
       const sp = (o.speed || 8) * (0.3 + Math.random() * 0.9);
-      const vx = Math.cos(a) * Math.cos(e) * sp + (o.dir ? o.dir.x * sp : 0);
-      const vy = Math.sin(e) * sp + (o.up || 0) * (0.5 + Math.random());
-      const vz = Math.sin(a) * Math.cos(e) * sp + (o.dir ? o.dir.z * sp : 0);
+      const vx = Math.cos(a) * Math.cos(e) * sp + (o.dir ? o.dir.x * sp : 0) + (o.vel ? o.vel.x : 0);
+      const vy = Math.sin(e) * sp + (o.up || 0) * (0.5 + Math.random()) + (o.vel ? o.vel.y || 0 : 0);
+      const vz = Math.sin(a) * Math.cos(e) * sp + (o.dir ? o.dir.z * sp : 0) + (o.vel ? o.vel.z : 0);
       const life = (o.life || 0.6) * (0.6 + Math.random() * 0.7);
       const jitter = o.jitter || 0;
       sys.spawn(

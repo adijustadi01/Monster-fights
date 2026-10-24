@@ -237,11 +237,11 @@ export const MONSTERS = {
     moves: {
       light: [
         { name: 'Wing Slash', kind: 'melee', type: 'electric', damage: 31, startup: 7, active: 4, recovery: 13, range: 4.9, arc: 130, yReach: 7, hitstun: 23, blockstun: 11, knockback: 2, lunge: 6 },
-        { name: 'Wing Slash II', kind: 'melee', type: 'physical', damage: 33, startup: 7, active: 4, recovery: 14, range: 4.9, arc: 130, yReach: 7, hitstun: 25, blockstun: 11, knockback: 2.5, lunge: 6 },
+        { name: 'Wing Slash II', kind: 'melee', type: 'physical', damage: 33, startup: 7, active: 4, recovery: 14, range: 4.9, arc: 130, yReach: 7, hitstun: 28, blockstun: 11, knockback: 2.5, lunge: 6 },
         { name: 'Ribbon Lash', kind: 'melee', type: 'electric', damage: 44, startup: 10, active: 5, recovery: 20, range: 5.4, arc: 150, yReach: 7, hitstun: 30, blockstun: 14, knockback: 6, lunge: 5, heavyHit: true },
       ],
       heavy: {
-        name: 'Dive Strike', kind: 'dive', type: 'electric', damage: 96, startup: 16, active: 40, recovery: 32, whiffRecovery: 44,
+        name: 'Dive Strike', kind: 'dive', type: 'electric', damage: 84, startup: 20, active: 40, recovery: 32, whiffRecovery: 48,
         diveSpeed: 27, range: 3.2, yReach: 6, hitstun: 38, blockstun: 20, knockback: 10, launch: 5, knockdown: true, heavyHit: true,
         description: 'From the air: dive onto the enemy. From the ground: leap up, then dive.',
       },

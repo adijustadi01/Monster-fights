@@ -111,7 +111,7 @@ export const ARENAS = {
     // The river: a band across the arena (z between -5 and 3). Pushes fighters along +x.
     water: [{ kind: 'band', axis: 'z', min: -5, max: 3 }],
     props: [
-      { kind: 'stoneBridge', x: 0, z: -1, r: 0, hp: 260, span: true }, // decorative arch over the river, breaks into chunks
+      { kind: 'stoneBridge', x: 27, z: -1, r: 3, hp: 260 }, // stone arch over the river at the arena edge
       { kind: 'boulder', x: -20, z: 16, r: 2.4, hp: 150 },
       { kind: 'boulder', x: 18, z: 18, r: 2.0, hp: 130 },
       { kind: 'boulder', x: -16, z: -20, r: 2.2, hp: 140 },
@@ -132,9 +132,9 @@ export const ARENAS = {
     mood: {
       skyTop: '#1a5ac8', skyMid: '#6aa8f0', skyBottom: '#e8f0fa',
       fog: '#d0e0f0', fogNear: 70, fogFar: 260,
-      sun: '#ffffff', sunIntensity: 3.0, sunDir: [0.3, 0.8, -0.3],
-      ambient: '#a0b8e0', ambientIntensity: 1.3,
-      ground: '#e8eef4', ground2: '#c8d4e0', groundCrack: '#7fe6ff',
+      sun: '#ffffff', sunIntensity: 2.2, sunDir: [0.3, 0.8, -0.3],
+      ambient: '#a0b8e0', ambientIntensity: 1.0,
+      ground: '#d8e0ea', ground2: '#bcc8d6', groundCrack: '#7fe6ff',
       water: '#c8dcf0', particles: 'glitter',
     },
     water: [],

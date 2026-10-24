@@ -323,7 +323,7 @@ export class EntitiesView {
         for (let i = 0; i < 22; i++) {
           const a = Math.random() * Math.PI * 2;
           const rr = Math.sqrt(Math.random()) * z.radius;
-          this.addSpike(z.x + Math.cos(a) * rr, z.z + Math.sin(a) * rr, 1.2 + Math.random() * 1.4, 2.2);
+          this.addSpike(z.x + Math.cos(a) * rr, z.z + Math.sin(a) * rr, 0.7 + Math.random() * 0.8, 2.2);
         }
         this.fx.dust({ x: z.x, y: 0.5, z: z.z }, 2.5, [0.45, 0.35, 0.25]);
         this.fx.leaves({ x: z.x, y: 2, z: z.z }, 30);

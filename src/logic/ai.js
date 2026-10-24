@@ -33,6 +33,9 @@ export class AIController {
     this.habits = { closeAttack: 0, rangedAttack: 0, jumps: 0, wakeupAttack: 0, total: 0, lastKind: {} };
     this.lastOppMoveStart = -1;
     this.waitPress = null;
+    this.nextGuardCheck = 0;
+    this.lastBlockFrame = -999;
+    this.lastOwnMove = -1;
   }
 
   setDifficulty(d) {
@@ -84,6 +87,7 @@ export class AIController {
     const out = emptyInput();
     this.snapshot();
     this.learn(opp);
+    if (me.state === 'blockstun') this.lastBlockFrame = this.b.frame;
 
     if (this.b.phase !== 'fight' || me.state === 'ko') return this.finish(out);
 
@@ -102,6 +106,7 @@ export class AIController {
     }
 
     // ---------- 2. Defence: react to perceived wind-ups ----------
+    if (me.state === 'blockstun' && this.blockFor < 6) this.blockFor = 6;
     if (this.blockFor > 0) {
       this.blockFor--;
       out.block = true;
@@ -127,6 +132,22 @@ export class AIController {
       if (reacted) return this.finish(out);
       // Incoming projectiles
       if (this.reactToProjectiles(me)) return this.finish(out);
+    }
+
+    // ---------- 2b. Anticipation: guard when the enemy is in striking range ----------
+    if (me.actionable && this.b.frame >= this.nextGuardCheck) {
+      this.nextGuardCheck = this.b.frame + 10;
+      const oppReach = opp.def.moves.light[0].range + me.radius + 1.5;
+      const threatClose = realDist < oppReach && opp.state !== 'knockdown' && opp.state !== 'hitstun';
+      if (threatClose && this.chance(this.d.defense * 0.35 * (me.def.ai.blockBias || 1))) {
+        this.blockFor = 14 + Math.floor(this.rng() * 22);
+        out.block = true;
+        return this.finish(out);
+      }
+    }
+    // Punish right after blocking something unsafe
+    if (me.actionable && opp.state === 'attack' && opp.phase === 'recovery' && this.lastBlockFrame > this.b.frame - 30 && realDist < 8 && this.chance(this.d.punish)) {
+      if (this.tryAttack(me, opp, realDist, true)) return this.finish(out);
     }
 
     // ---------- 3. Punish whiffs / unsafe moves ----------
@@ -204,6 +225,10 @@ export class AIController {
       this.dodgeWant = away;
       return true;
     }
+    if (kind === 'dive' && this.chance(0.7)) {
+      this.dodgeWant = side;
+      return true;
+    }
     if (kind === 'charge' && this.chance(0.6)) {
       this.dodgeWant = side;
       return true;
@@ -274,6 +299,11 @@ export class AIController {
   }
 
   continueCombo(me, dist) {
+    if (me.moveStartFrame !== this.lastOwnMove) {
+      // a new move (possibly a chained one) has started: plan again
+      this.lastOwnMove = me.moveStartFrame;
+      this.comboPlan = null;
+    }
     if (!me.moveContact || this.comboPlan === 'done') return;
     const m = me.move;
     if (me.moveKey === 'light') {
@@ -301,7 +331,6 @@ export class AIController {
       if (me.meter >= GLOBAL.meterMax && this.chance(this.d.comboSkill * 0.6) && this.signatureGood(me, this.opp, dist, true)) this.press('signature');
       else if (me.cooldowns.ability <= 0 && this.abilityUsefulInCombo(me) && this.chance(this.d.comboSkill * 0.5)) this.press('ability');
     }
-    if (m && me.phase === 'recovery' && me.pf === 0) this.comboPlan = null;
   }
 
   abilityUsefulInCombo(me) {

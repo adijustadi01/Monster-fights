@@ -404,9 +404,9 @@ export class Battle {
     if (m.kind === 'quake') f.activeLen = m.ringInterval * (m.rings - 1) + m.active;
     if (m.exposesWeakSpot === true) f.coreExposed = true;
     if (m.kind === 'dive' && !f.airborne) {
-      // From the ground: leap up first.
-      f.vy = 15;
-      f.startupLen += 10;
+      // From the ground: leap up first (a quick hop when chained from a combo).
+      f.vy = chained ? 11 : 15;
+      if (!chained) f.startupLen += 10;
     }
     if (m.kind === 'decoy') this.spawnDecoy(f, m);
     this.emit({ type: 'moveStart', f: f.index, key, chain, name: m.name, kind: m.kind, damageType: m.type, startup: f.startupLen, chained });
