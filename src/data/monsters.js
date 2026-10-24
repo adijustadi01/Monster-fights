@@ -144,18 +144,18 @@ export const MONSTERS = {
     },
 
     // Damage taken multiplier by type (missing = 1.0)
-    typeMultipliers: { water: 1.45, fire: 0.5, physical: 0.9, root: 0.85, shockwave: 0.8 },
+    typeMultipliers: { water: 1.35, fire: 0.5, physical: 0.9, shockwave: 0.8 },
 
     resource: {
       kind: 'armor',
       label: 'MAGMA ARMOR',
       color: '#ff8a2a',
       max: 100,
-      waterDrainPerDamage: 0.95, // water damage removes this much armor per point
+      waterDrainPerDamage: 0.55, // water damage removes this much armor per point
       regenPerSecond: 7,
       regenDelay: 90,
       cooledDuration: 240, // frames spent "Cooled" when armor hits 0
-      cooledDamageMult: 1.3, // takes extra damage while Cooled
+      cooledDamageMult: 1.2, // takes extra damage while Cooled
       cooledSpeedMult: 0.85,
     },
 
@@ -170,7 +170,7 @@ export const MONSTERS = {
       heavy: {
         name: 'Armored Charge', kind: 'charge', type: 'physical', damage: 105, startup: 24, active: 30, recovery: 30,
         chargeSpeed: 15, range: 3.4, arc: 100, yReach: 5.5, hitstun: 40, blockstun: 22, knockback: 13, launch: 7,
-        knockdown: true, superArmor: true, heavyHit: true, exposesWeakSpot: 150,
+        knockdown: true, superArmor: true, heavyHit: true, exposesWeakSpot: 150, cooldown: 150,
       },
       ability: {
         name: 'Ground Slam', kind: 'slam', type: 'shockwave', damage: 82, startup: 26, active: 4, recovery: 28,
@@ -221,7 +221,7 @@ export const MONSTERS = {
       dodge: { frames: 18, speed: 16, invulnStart: 2, invulnEnd: 13, cooldown: 38 },
     },
 
-    typeMultipliers: { electric: 0.5, energy: 1.4, water: 1.15 },
+    typeMultipliers: { electric: 0.5, energy: 1.35, water: 1.15 },
     wingHitMult: 1.15, // extra damage taken while flying (wing membranes), non-electric hits
 
     resource: {
@@ -242,7 +242,7 @@ export const MONSTERS = {
       ],
       heavy: {
         name: 'Dive Strike', kind: 'dive', type: 'electric', damage: 84, startup: 20, active: 40, recovery: 32, whiffRecovery: 48,
-        diveSpeed: 27, range: 3.2, yReach: 6, hitstun: 38, blockstun: 20, knockback: 10, launch: 5, knockdown: true, heavyHit: true,
+        diveSpeed: 27, range: 3.2, yReach: 6, hitstun: 38, blockstun: 20, knockback: 10, launch: 5, knockdown: true, heavyHit: true, cooldown: 120,
         description: 'From the air: dive onto the enemy. From the ground: leap up, then dive.',
       },
       ability: {
@@ -290,7 +290,7 @@ export const MONSTERS = {
       dodge: { frames: 22, speed: 11, invulnStart: 2, invulnEnd: 14, cooldown: 46 },
     },
 
-    typeMultipliers: { electric: 1.5, water: 0.5, fire: 0.8 },
+    typeMultipliers: { electric: 1.4, water: 0.5, fire: 0.8 },
 
     resource: {
       kind: 'water',
@@ -362,7 +362,7 @@ export const MONSTERS = {
       dodge: { frames: 22, speed: 11, invulnStart: 2, invulnEnd: 14, cooldown: 46 },
     },
 
-    typeMultipliers: { fire: 1.5, water: 0.6, root: 0.5, physical: 0.95 },
+    typeMultipliers: { fire: 1.4, water: 0.6, root: 0.5, physical: 0.95 },
 
     resource: {
       kind: 'regen',
@@ -371,7 +371,7 @@ export const MONSTERS = {
       max: 100,
       delayFrames: 190, // frames without taking damage before healing starts
       healPerSecond: 13,
-      firePause: 300, // fire stops regeneration this long
+      firePause: 200, // fire stops regeneration this long
     },
 
     weakSpot: { name: 'core', label: 'CORE HIT!', mult: 1.3 },
@@ -383,8 +383,8 @@ export const MONSTERS = {
         { name: 'Trunk Club', kind: 'melee', type: 'physical', damage: 52, startup: 13, active: 5, recovery: 22, range: 5.2, arc: 110, yReach: 7, hitstun: 32, blockstun: 15, knockback: 7, lunge: 3, heavyHit: true },
       ],
       heavy: {
-        name: 'Root Grab', kind: 'grab', type: 'root', damage: 64, startup: 30, active: 22, recovery: 28, whiffRecovery: 40,
-        travelSpeed: 34, range: 13.5, tipRadius: 1.8, rootFrames: 80, hitstun: 30, unblockable: true, groundOnly: true,
+        name: 'Root Grab', kind: 'grab', type: 'root', damage: 56, startup: 30, active: 22, recovery: 28, whiffRecovery: 40,
+        travelSpeed: 34, range: 13.5, tipRadius: 1.8, rootFrames: 65, hitstun: 30, unblockable: true, groundOnly: true, cooldown: 180,
         exposesWeakSpot: true, heavyHit: true,
         description: 'Slow, glowing wind-up, then roots race along the ground and immobilize. Cannot be blocked - jump or dodge it!',
       },
@@ -447,14 +447,14 @@ export const MONSTERS = {
       regenDelay: 40,
       breakStun: 60, // stagger when the shield runs dry
       perfectWindow: 9, // frames after raising the shield that count as a PERFECT block
-      reflectDamageMult: 1.5, // reflected projectiles hit this much harder (and become ENERGY)
+      reflectDamageMult: 1.25, // reflected projectiles hit this much harder (and become ENERGY)
       shieldArcDegrees: 140, // front-only
       reflectableTypes: ['energy', 'electric'],
     },
 
     moves: {
       light: [
-        { name: 'Crystal Jab', kind: 'melee', type: 'energy', damage: 26, startup: 5, active: 3, recovery: 10, range: 4.5, arc: 100, yReach: 7, hitstun: 20, blockstun: 10, knockback: 1.5, lunge: 5 },
+        { name: 'Crystal Jab', kind: 'melee', type: 'physical', damage: 26, startup: 5, active: 3, recovery: 10, range: 4.5, arc: 100, yReach: 7, hitstun: 20, blockstun: 10, knockback: 1.5, lunge: 5 },
         { name: 'Crystal Cross', kind: 'melee', type: 'physical', damage: 29, startup: 5, active: 3, recovery: 11, range: 4.5, arc: 100, yReach: 7, hitstun: 22, blockstun: 10, knockback: 2, lunge: 5 },
         { name: 'Prism Uppercut', kind: 'melee', type: 'energy', damage: 42, startup: 8, active: 4, recovery: 18, range: 4.7, arc: 110, yReach: 8, hitstun: 30, blockstun: 13, knockback: 5, launch: 3, lunge: 5, heavyHit: true },
       ],

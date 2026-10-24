@@ -315,7 +315,7 @@ export class AIController {
         }
         const last = me.chain >= me.def.moves.light.length - 1;
         const canAbility = me.cooldowns.ability <= 0 && this.abilityUsefulInCombo(me);
-        if (me.chain >= 1 && this.chance(0.45)) this.comboPlan = 'heavy';
+        if (me.chain >= 1 && me.cooldowns.heavy <= 0 && this.chance(0.45)) this.comboPlan = 'heavy';
         else if (last && canAbility && this.chance(this.d.comboSkill * 0.6)) this.comboPlan = 'ability';
         else if (!last) this.comboPlan = 'light';
         else this.comboPlan = canAbility ? 'ability' : 'done';
@@ -353,10 +353,11 @@ export class AIController {
     if (dist <= lightRange && tallEnough(moves.light[0])) options.push(['light', 3 * eff(moves.light[0].type)]);
 
     const h = moves.heavy;
-    if (h.kind === 'melee' && dist <= h.range + opp.radius * 0.5 && tallEnough(h)) options.push(['heavy', (punishing ? 3 : 1.1) * eff(h.type) * (h.resourceCost && me.res < h.resourceCost + 5 ? 0 : 1)]);
-    if (h.kind === 'charge' && dist > 4 && dist < 14 && !flyingOpp) options.push(['heavy', 1.5 * eff(h.type)]);
-    if (h.kind === 'dive' && (me.flying || me.res > 30) && dist < 16) options.push(['heavy', (me.flying ? 1.6 : 0.5) * eff(h.type)]);
-    if (h.kind === 'grab' && !flyingOpp && dist > 4 && dist < h.range - 1) options.push(['heavy', (opp.state === 'attack' && opp.phase !== 'startup' ? 2.5 : 0.9) * eff(h.type)]);
+    const heavyReady = me.cooldowns.heavy <= 0;
+    if (heavyReady && h.kind === 'melee' && dist <= h.range + opp.radius * 0.5 && tallEnough(h)) options.push(['heavy', (punishing ? 3 : 1.1) * eff(h.type) * (h.resourceCost && me.res < h.resourceCost + 5 ? 0 : 1)]);
+    if (heavyReady && h.kind === 'charge' && dist > 4 && dist < 14 && !flyingOpp) options.push(['heavy', 1.5 * eff(h.type)]);
+    if (heavyReady && h.kind === 'dive' && (me.flying || me.res > 30) && dist < 16) options.push(['heavy', (me.flying ? 1.6 : 0.5) * eff(h.type)]);
+    if (heavyReady && h.kind === 'grab' && !flyingOpp && dist > 4 && dist < h.range - 1) options.push(['heavy', (opp.state === 'attack' && opp.phase !== 'startup' ? 2.5 : 0.9) * eff(h.type)]);
 
     const a = moves.ability;
     if (me.cooldowns.ability <= 0) {

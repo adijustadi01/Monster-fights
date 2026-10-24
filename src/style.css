@@ -196,8 +196,8 @@ button { font-family: var(--title); cursor: pointer; }
 .se { color: var(--gold); font-family: var(--title); }
 
 /* ---------- fighter intro ---------- */
-.intro-layer { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
-.intro-layer.on { opacity: 1; pointer-events: auto; }
+.intro-layer { position: absolute; inset: 0; pointer-events: none !important; opacity: 0; transition: opacity 0.2s; }
+.intro-layer.on { opacity: 1; pointer-events: auto !important; }
 .intro-card { position: absolute; top: 18%; max-width: 46vw; padding: 18px 26px; animation: slideIn 0.5s cubic-bezier(0.2, 1.4, 0.4, 1); }
 .intro-card.side0 { left: 4vw; border-left: 6px solid var(--mc); background: linear-gradient(90deg, rgba(0, 0, 0, 0.75), transparent); }
 .intro-card.side1 { right: 4vw; text-align: right; border-right: 6px solid var(--mc); background: linear-gradient(-90deg, rgba(0, 0, 0, 0.75), transparent); animation-name: slideInR; }

@@ -64,7 +64,7 @@ export class Fighter {
     this.moveContact = false;
     this.moveHit = false;
     this.hitIds = new Set();
-    this.cooldowns = { ability: 0, dodge: 0 };
+    this.cooldowns = { ability: 0, heavy: 0, dodge: 0 };
     this.buf = { light: 0, heavy: 0, ability: 0, signature: 0, jump: 0 };
     this.prevHeld = { jump: false, light: false, heavy: false, ability: false, signature: false, block: false };
     this.prevMove = { x: 0, z: 0 };

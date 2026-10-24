@@ -274,7 +274,12 @@ export class Screens {
     };
     this.root.querySelectorAll('.card').forEach((c) => {
       c.dataset.hover = '1';
-      c.addEventListener('mouseenter', () => showDetails(c.dataset.id));
+      c.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse') showDetails(c.dataset.id);
+      });
+      c.addEventListener('mouseenter', (e) => {
+        if (!e.isTrusted) showDetails(c.dataset.id); // keyboard/gamepad focus
+      });
       c.addEventListener('click', () => {
         audio.play('select');
         if (this.sel.hover === c.dataset.id && this.root.querySelector('.confirm')) {

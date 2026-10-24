@@ -72,6 +72,7 @@ export class Game {
     window.addEventListener('pointerdown', unlock, { once: false });
     window.addEventListener('keydown', unlock, { once: false });
     window.__game = this; // handy for debugging & automated tests
+    window.__save = save;
     this.screens.show('title');
     requestAnimationFrame((t) => this.frame(t));
   }

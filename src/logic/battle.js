@@ -149,6 +149,7 @@ export class Battle {
   updateTimers(f) {
     if (f.invuln > 0) f.invuln--;
     if (f.cooldowns.ability > 0) f.cooldowns.ability--;
+    if (f.cooldowns.heavy > 0) f.cooldowns.heavy--;
     if (f.cooldowns.dodge > 0) f.cooldowns.dodge--;
     if (f.rootedTimer > 0) f.rootedTimer--;
     if (f.weakSpotTimer > 0) f.weakSpotTimer--;
@@ -296,7 +297,7 @@ export class Battle {
     // Attacks (priority: signature > ability > heavy > light)
     if (f.buf.signature > 0 && meterFull) return this.startMove(f, 'signature');
     if (f.buf.ability > 0 && this.abilityReady(f)) return this.startMove(f, 'ability');
-    if (f.buf.heavy > 0) return this.startMove(f, 'heavy');
+    if (f.buf.heavy > 0 && f.cooldowns.heavy <= 0) return this.startMove(f, 'heavy');
     if (f.buf.light > 0) return this.startMove(f, 'light', 0);
 
     // Jump / take off / land
@@ -382,6 +383,7 @@ export class Battle {
       f.record.signatures++;
     }
     if (key === 'ability') f.cooldowns.ability = m.cooldown || 0;
+    if (key === 'heavy') f.cooldowns.heavy = m.cooldown || 0;
 
     f.state = 'attack';
     f.moveStartFrame = this.frame;
@@ -428,7 +430,7 @@ export class Battle {
     if (f.moveContact && f.phase !== 'startup') {
       if (f.moveKey === 'light') {
         if (f.buf.light > 0 && f.chain < f.def.moves.light.length - 1) return this.startMove(f, 'light', f.chain + 1, true);
-        if (f.buf.heavy > 0 && f.chain >= 1) return this.startMove(f, 'heavy', 0, true);
+        if (f.buf.heavy > 0 && f.chain >= 1 && f.cooldowns.heavy <= 0) return this.startMove(f, 'heavy', 0, true);
       }
       if ((f.moveKey === 'light' || f.moveKey === 'heavy') && f.buf.ability > 0 && this.abilityReady(f)) {
         this.emit({ type: 'cancel', f: f.index });
